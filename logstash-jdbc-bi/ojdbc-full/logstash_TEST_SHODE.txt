@@ -1,0 +1,24 @@
+input {
+ jdbc {
+       jdbc_validate_connection => true
+       jdbc_connection_string => "jdbc:oracle:thin:@192.168.251.144:1521/bi12c"
+       jdbc_user => "dev_biplatform"
+       jdbc_password => "oracle"
+       jdbc_driver_library => "C:\app\client\Administrator\product\12.1.0\client_1\jdbc\lib\ojdbc7.jar"
+       jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+       statement => "select * from S_NQ_ACCT"
+	   use_column_value => true
+	   tracking_column => "session_id"
+   }
+}
+
+output {
+ elasticsearch {
+   hosts => ["http://localhost:9200"]
+   index => "logstash_oracle"
+   #user => "elastic"
+  # password => "elastic"
+ }
+ stdout{codec => rubydebug}
+
+}

@@ -1,0 +1,22 @@
+input {
+ jdbc {
+       clean_run => true
+       jdbc_validate_connection => true
+       jdbc_connection_string => "jdbc:oracle:thin:@192.168.251.144:1521/bi12c"
+       jdbc_user => "dev_biplatform"
+       jdbc_password => "oracle"
+	   schedule => "* * * * *"
+       jdbc_driver_library => "C:\elk\OJDBC-Full\ojdbc7.jar"
+       jdbc_driver_class => "Java::oracle.jdbc.driver.OracleDriver"
+       statement => "select * from ELKA_REP_BI"
+	   }
+}
+output {
+ elasticsearch {
+   hosts => ["http://localhost:9200"]
+   index => "logstash_oracle"
+   #user => "elastic"
+  # password => "elastic"
+ }
+ stdout{codec => rubydebug}
+}
